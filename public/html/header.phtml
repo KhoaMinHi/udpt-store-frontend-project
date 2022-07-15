@@ -1,0 +1,42 @@
+<div class="logo">
+    <a href="/FE-Store/index.php"><img src=<?php echo $cssRefPath . "public/image/logo-same-color.gif"?> alt="logo" /></a>
+    <p>NHÓM SIX</p>
+</div>
+<div class="menu">
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#">0</a>
+            <a href="#">1</a>
+        </div>
+    </div>
+    <nav class="navBarLink">
+        <ul>
+            <li><a href="/FE-Store/">Trang chủ</a></li>
+            <li><a href="/FE-Store/router/info.php">Thông tin</a></li>
+            <li><a href="/FE-Store/router/auth.php">Login</a></li>
+            <li><a href="/FE-Store/router/auth.php">Logout</a></li>
+        </ul>
+</nav>
+</div>
+<script>
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
