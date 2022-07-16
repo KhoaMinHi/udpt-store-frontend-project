@@ -1,8 +1,12 @@
 <?php
 require_once "./../controller/storeController.php";
-//require_once "./../controller/loginlogout.php";
+require_once "./../controller/authController.php";
 
-//LoginLogoutController::checkSession("Location:loginout.php");
+if(LoginLogoutController::checkSession() == false){
+    echo "<script>alert('Vui lòng đăng nhập!'); window.location.href='auth.php'</script>";
+    //header("Location:auth.php");
+    return;
+}
 
 $storeInfo = new StoreController();
 $action = "";
@@ -21,19 +25,19 @@ switch ($method) {
             case "update":
                 $storeInfo->updateStoreInfo();
                 break;
-            case "create":
-                $storeInfo->createStore();
+            case "updatelogo":
+                $storeInfo->updateStoreLogo();
                 break;
             default:
                 $storeInfo->getStoreInfo();
                 break;
         }
     case 'GET':
-        $storeInfo->getStoreInfo();
-        break;
-    default:
-        handle_error($request);
-        break;
+        switch ($action) {
+            default:
+                $storeInfo->getStoreInfo();
+                break;
+        }
 }
 
 // switch ($action) {

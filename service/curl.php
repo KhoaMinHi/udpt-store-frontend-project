@@ -23,7 +23,8 @@ function object_to_array($data)
 function CallAPI($url, $method = null, $data = false)
 {
     $curl = curl_init();
-    if($data != false) $query = http_build_query($data, '', '&');
+    $query = "";
+    if($data != false && !empty($data)) $query = http_build_query($data, '', '&');
 
     switch ($method)
     {

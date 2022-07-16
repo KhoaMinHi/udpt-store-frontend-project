@@ -6,12 +6,35 @@ class StoreController{
     //private $cssRefPath = "./../";
 
     public function getStoreInfo(){
+
         $_id="3bc0a610-0262-11ed-b589-a44cc8191af3";
+        if(!empty($_GET["_id"])) $_id = $_GET["_id"];
+        if(!empty($_SESSION["userid"])) $_id = $_SESSION["userid"];
+        $resultForModal = "<h3>getStoreInfo()</h3>";
+
         $result = StoreModel::getStoreInfo($_id);
+        
+        if(!empty($result->code)){
+            if($result->code >= 400 && $result->code <100000){
+                $resultForModal .= serialize($result);
+            }elseif($result){
+                $resultForModal.='Thông tin trả về thành công!';
+            }
+            else{
+                $resultForModal.='Thông tin trả về thất bại!';
+            }
+        }elseif($result){
+            $resultForModal.='Thông tin trả về thành công!';
+        }
+        else{
+            $resultForModal.='Thông tin trả về thất bại!';
+        }
+
         global $cssRefPath;
         
         $CONTENT_PATH = "./view/infoView.phtml";
         require_once($cssRefPath . "template/template.phtml");
+        return;
     }
     public function updateStoreInfo(){
         if(empty($_POST["name"]) && empty($_POST["phone"]) && empty($_POST["email"]) &&  
@@ -21,7 +44,7 @@ class StoreController{
         }
         
         $store = new StoreModel();
-        $store->_id = "3bc0a610-0262-11ed-b589-a44cc8191af3";
+        $store->_id = $_SESSION["userid"];
         $store->name = urldecode($_POST["name"]);
         $store->phone = urldecode($_POST["phone"]);
         $store->email = urldecode($_POST["email"]);
@@ -35,25 +58,122 @@ class StoreController{
         $store->address = urldecode($_POST["address"]);       
         
         $result=true;
-        $resultForModal="Sửa thông tin thành công!";
+        $resultForModal="<h3>updateStoreInfo()</h3>";
         //check error respone from api server
         $result = $store->updateStoreInfo();
+        
         if(!empty($result->code)){
-            if($result->code==404){
-                $resultForModal = var_dump($result);
-            }elseif($result==true){
-                
+            if($result->code >= 400 && $result->code <100000){
+                $resultForModal .= serialize($result);
+            }elseif($result){
+                $resultForModal.='Sửa thông tin thành công!';
             }
             else{
-                $resultForModal='Sửa thông tin thất bại!';
+                $resultForModal.='Sửa thông tin thất bại!';
             }
+        }elseif($result){
+            $resultForModal.='Sửa thông tin thành công!';
+        }
+        else{
+            $resultForModal.='Sửa thông tin thất bại!';
         }
         
         global $cssRefPath;
-        
         $CONTENT_PATH = "./view/infoView.phtml";
         require_once($cssRefPath . "template/template.phtml");
+        return;
     }
+
+    //register view
+    public function registerStoreHtml(){
+        global $cssRefPath;
+        $CONTENT_PATH = "./view/registerView.phtml";
+        require_once($cssRefPath . "template/template.phtml");
+        return;
+    }
+    //register store
+    public function registerStore(){
+        $resultForModal="<h3>registerStore()</h3>";
+        if(empty($_POST["name"]) && empty($_POST["phone"]) && empty($_POST["email"]) &&  empty($_POST["password"]) &&
+        empty($_POST["dayStart"]) && empty($_POST["timeOpen"]) && empty($_POST["timeClose"]) && empty($_POST["productCategory"]) && 
+        empty($_POST["logo"]) && empty($_POST["agreeTerm"]) && 
+        empty($_POST["province"]) && empty($_POST["district"]) && empty($_POST["ward"]) && empty($_POST["address"])){
+            
+            $resultForModal.='Bạn đã điền thiếu thông tin. Sửa thông tin thất bại!';
+            global $cssRefPath;
+            $CONTENT_PATH = "./view/registerView.phtml";
+            require_once($cssRefPath . "template/template.phtml");
+            return;
+        }
+        
+        $store = new StoreModel();
+        $store->name = urldecode($_POST["name"]);
+        $store->phone = urldecode($_POST["phone"]);
+        $store->email = urldecode($_POST["email"]);
+        $store->password = urldecode($_POST["password"]);
+        $store->dayStart = urldecode($_POST["dayStart"]);
+        $store->timeOpen = urldecode($_POST["timeOpen"]);
+        $store->timeClose = urldecode($_POST["timeClose"]);
+        $store->productCategory = urldecode($_POST["productCategory"]);
+        //$store->logo = urldecode($_POST["logo"]);
+        $store->agreeTerm = intval(urldecode($_POST["agreeTerm"]));
+        $store->province = urldecode($_POST["province"]);
+        $store->district = urldecode($_POST["district"]);
+        $store->ward = urldecode($_POST["ward"]);
+        $store->address = urldecode($_POST["address"]);       
+        
+        $result=true;
+        //check error respone from api server
+        $result = $store->createStore();
+        if(!empty($result->code)){
+            if($result->code >= 400 && $result->code <100000){
+                $resultForModal .= serialize($result);
+            }elseif($result){
+                $resultForModal.='Đăng ký cửa hàng thành công. Chờ kích hoạt!';
+            }
+            else{
+                $resultForModal.='Đăng ký cửa hàng thất bại!';
+            }
+        }elseif($result){
+            $resultForModal.='Đăng ký cửa hàng thành công. Chờ kích hoạt!';
+        }
+        else{
+            $resultForModal.='Đăng ký cửa hàng thất bại!';
+        }
+        
+        global $cssRefPath;
+        $CONTENT_PATH = "./view/registerView.phtml";
+        require_once($cssRefPath . "template/template.phtml");
+        return;
+    }
+
+    public function updateStoreLogo(){
+        if(empty($_POST["logo"])){
+            $resultForModal='<h3>updateStoreLogo()</h3>Bạn chưa thêm logo mới. Thay logo thất bại!';
+            global $cssRefPath;
+            $CONTENT_PATH = "./view/infoView.phtml";
+            require_once($cssRefPath . "template/template.phtml");
+            return;
+        }
+        $result = StoreModel::updateStoreLogo($_POST["logo"]);
+        if(!empty($result->code)){
+            if($result->code >= 400 && $result->code <100000){
+                $resultForModal .= serialize($result);
+            }elseif($result){
+                $resultForModal.='Cập nhật logo thành công';
+            }
+            else{
+                $resultForModal.='Cập nhật logo thất bại!';
+            }
+        }elseif($result){
+            $resultForModal.='Sửa thông tin thành công!';
+        }
+        else{
+            $resultForModal.='Sửa thông tin thất bại!';
+        }
+        return;
+    }
+    
     /*
     public function advancedSearch(){
         $playerName="";

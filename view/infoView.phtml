@@ -1,44 +1,64 @@
+<style>
+img.logo-store{
+  height: 50%;
+  width: 50%;
+  border-radius: 50%;
+}
+</style>
 <div class="container">
-    <!-- <div>
-        <?php echo $result->name?>
-    </div> -->
-    <!-- <div>
-        <?php print_r($result);?>
-    </div> -->
-
     <div class="d-flex justify-content-center">
         <div class="w-75">
             <!-- bootstrap modal -->
             <?php
-            if(!empty($result->code)){
-                if($result->code==404){
-                    $notice = "<div class='modal fade' id='warningBootstrapModal' tabindex='-1' role='dialog'
-                        aria-labelledby='exampleModalCenterTitle' aria-hidden='true'>
-                        <div class='modal-dialog modal-dialog-centered' role='document'>
-                            <div class='modal-content text-center'>
-                                <div class='modal-header d-flex justify-content-center text-warning'>
-                                    <h5 class='modal-title' id='exampleModalLongTitle'>Thông Báo</h5>
-                                </div>
-                                <div class='modal-body'>
-                                    $resultForModal
-                                </div>
-                                <div class='modal-footer'>
-                                    <button id='hideNoticeRelPerson' type='button' class='btn btn-secondary'
-                                        data-dismiss='modal'>Close</button>
-                                </div>
+            if(isset($resultForModal)){
+                $notice = "<div class='modal fade' id='warningBootstrapModal' tabindex='-1' role='dialog'
+                    aria-labelledby='exampleModalCenterTitle' aria-hidden='true'>
+                    <div class='modal-dialog modal-dialog-centered' role='document'>
+                        <div class='modal-content text-center'>
+                            <div class='modal-header d-flex justify-content-center text-warning'>
+                                <h5 class='modal-title' id='exampleModalLongTitle'>Thông Báo</h5>
+                            </div>
+                            <div class='modal-body'>
+                                $resultForModal
+                            </div>
+                            <div class='modal-footer'>
+                                <button id='hideNoticeRelPerson' type='button' class='btn btn-secondary'
+                                    data-dismiss='modal'>Close</button>
                             </div>
                         </div>
-                    </div>";
-                    echo $notice;
-                }
+                    </div>
+                </div>";
+                echo $notice;
             }
             ?>
             <!-- store info -->
-            <h4 class="text-center">Thông tin tài khoản cửa hàng
+            <h4 class="text-center" style="color: rgb(250 20 156); font-weight: bold;">Thông tin tài khoản cửa hàng
                 <?php if(!empty($result->name)) echo $result->name?>
             </h4>
-            <div>
-                <img src="$result->logo" alt="logo" />
+            <div class="my-3">
+                <div >
+                <img src="http://localhost:3000/api/file/thịt heo udpt.jpg" alt="logo" class="logo-store"/>
+                </div>
+            </div>
+            <fieldset>
+                <legend>Upload with AJAX</legend>
+                <p>Select image to upload:</p>
+                <input type="file" name="myJSFile" id="myJSFile" />
+                <br />
+                <button onclick="uploadPut('http://localhost:3000/api/file/')">Upload one image via AJAX</button>
+                <p id="responseOK" style="color: green; font-weight: bold"></p>
+                <p id="responseError" style="color: red; font-weight: bold"></p>
+            </fieldset>
+            <div class="my-3">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div>
+                        <label for="">Ảnh logo</label>
+                        <input type="file" name="logo" id="logoStore" />
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Đổi logo</button>
+                    </div>
+                </form>
             </div>
             <form class="was-validated mb-3" method="POST" action="?action=update">
                 <div class="row">
@@ -52,7 +72,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputBirtDay">Ngày mở(*)</label>
-                        <input value="<?php if(!empty($result->name)) echo $result->dayStart?>" type="datetime-local"
+                        <input value="<?php if(!empty($result->dayStart)) echo $result->dayStart?>" type="datetime-local"
                             class="form-control" id="birtd" name="dayStart"
                             oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
                             onchange="this.setCustomValidity('')" required>
@@ -62,7 +82,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="inputName">Giờ mở cửa(*)</label>
-                        <input value="<?php if(!empty($result->name))  echo $result->timeOpen?>" type="time"
+                        <input value="<?php if(!empty($result->timeOpen))  echo $result->timeOpen?>" type="time"
                             class="form-control" name="timeOpen"
                             oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
                             onchange="this.setCustomValidity('')" required>
@@ -70,7 +90,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputBirtDay">Giờ đóng cửa(*)</label>
-                        <input value="<?php if(!empty($result->name))  echo $result->timeClose?>" type="time"
+                        <input value="<?php if(!empty($result->timeClose))  echo $result->timeClose?>" type="time"
                             class="form-control" name="timeClose"
                             oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
                             onchange="this.setCustomValidity('')" required>
@@ -263,3 +283,27 @@
     //     })
     // })
 </script>
+
+<!-- file upload moleculer -->
+<script>
+    // function uploadPut(postUrl) {
+    //   const input = document.querySelector("#myJSFile");
+    //   const pOK = document.querySelector("#responseOK");
+    //   const pError = document.querySelector("#responseError");
+    //   pOK.innerHTML = "";
+    //   pError.innerHTML = "";
+
+    //   var req = new XMLHttpRequest();
+    //   req.open("PUT", postUrl);
+    //   req.setRequestHeader("Content-type", "image/png");
+    //   req.onload = function(event) {
+    //     if (event.target.status == 200)
+    //       return (pOK.innerHTML =
+    //         "Uploaded successfully! Path: " +
+    //         JSON.parse(event.target.responseText).filePath);
+
+    //     pError.innerHTML = "Upload error: " + event.target.responseText;
+    //   };
+    //   req.send(input.files[0]);
+    // }
+  </script>

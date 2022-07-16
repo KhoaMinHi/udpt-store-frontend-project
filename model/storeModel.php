@@ -22,19 +22,46 @@ class StoreModel{
         $url = "http://localhost:3000/api/store/$_id"; //?fields=name&fields=_id
         $result = CallAPI($url);
         if(empty($result)) return null;
-        $result->dayStart = rtrim($result->dayStart, "Z");
+        if(!empty($result->dayStart)) $result->dayStart = rtrim($result->dayStart, "Z");
         return $result;
     }
 
     public function updateStoreInfo(){
         $url = "http://localhost:3000/api/store/" . $this->_id . "?"; //?fields=name&fields=_id
-        $this->_id="3bc0a610-0262-11ed-b589-a44cc8191af4";
         $result = CallAPI($url, "PUT", (array)$this);
         if(empty($result)) return null;
         if(!empty($result->dayStart)) $result->dayStart = rtrim($result->dayStart, "Z");
         return $result;
     }
 
+    //register store
+    public function createStore(){
+        $url = "http://localhost:3000/api/store/register?"; //?fields=name&fields=_id
+        $result = CallAPI($url, "POST", (array)$this);
+        if(empty($result)) return null;
+        if(!empty($result->dayStart)) $result->dayStart = rtrim($result->dayStart, "Z");
+        return $result;
+    }
+
+    public static function updateStoreLogo($logo){
+        // $url = "http://localhost:3000/api/file/"  . "?l" ; 
+        // $result = CallAPI($url, "PUT", (array)$this);
+        // if(empty($result)) return null;
+        // if(!empty($result->dayStart)) $result->dayStart = rtrim($result->dayStart, "Z");
+        // return $result;
+        return null;
+    }
+
+    public static function login($email=null, $password=null){
+        $url = "http://localhost:3000/api/store/email?email=$email"; //?fields=name&fields=_id
+        $result = CallAPI($url);
+        if(empty($result)) return false;
+        if(!empty($result->password)){
+            if($result->password != $password) return false;
+        }
+        if(!empty($result->dayStart)) $result->dayStart = rtrim($result->dayStart, "Z");
+        return $result;
+    }
     /*
     public static function advancedSearch($playerName, $playerPosition, $playerNumber, $playerNationality, $playerClub){
         dbconnect::connect();
