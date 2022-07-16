@@ -3,7 +3,7 @@ session_start();
 require_once("./../model/storeModel.php");
 $cssRefPath = "./../";
 
-class LoginLogoutController
+class AuthController
 {
     public static function getLoginHtml($resultForModal=null)
     {
@@ -48,18 +48,23 @@ class LoginLogoutController
         else
         {
             if(!empty($result->code)){
+                //error
                 if($result->code >= 400 && $result->code <100000){
                     $resultForModal .= serialize($result);
                     self::getLoginHtml($resultForModal);
-                }else{
+                }else{//
+                    //success
                     //the active code is the same code name error
+                    //should be placed at model
                     $_SESSION["userid"] = $result->_id;
+                    $_SESSION["active-store"] = $result->active;
                     $resultForModal .= "Đăng nhập thành thành công!";
                     header("Location:info.php");
                 }
             }
             else{
                 $_SESSION["userid"] = $result->_id;
+                $_SESSION["active-store"] = $result->active;
                 $resultForModal .= "Đăng nhập thành thành công!";
                 //echo "<script>window.location.href='info.php?_id='$result->_id</script>";
                 header("Location:info.php");
@@ -71,6 +76,7 @@ class LoginLogoutController
     {
         //session_start();
         unset($_SESSION["userid"]);
+        unset($_SESSION["active-store"]);
         //header("Location:loginout.php");
         echo "<script>window.location.href='/FE-Store/router/auth.php'</script>";
     }

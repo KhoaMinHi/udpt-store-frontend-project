@@ -25,9 +25,9 @@
                 }
             ?>
             <!-- store info -->
-            <h4 class="text-center" style="color: rgb(250 20 156); font-weight: bold;">Đăng Nhập Vào Hệ Thống Đi Chợ Online</h4>
+            <h4 class="text-center" style="color: rgb(250 20 156); font-weight: bold;">Hệ Thống Gửi Mã Moleculer Đi Chợ Online</h4>
 
-            <form class="was-validated mb-3" method="POST" action="?action=login">
+            <form class="was-validated mb-3" method="POST" action="?action=sendcode">
                 <!-- {{!-- email --}} -->
                 <div class="row">
                     <div class="col-md-12">
@@ -37,24 +37,15 @@
                             onchange="this.setCustomValidity('')" required>
                     </div>
                 </div><br />
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="inputPassword">Mật khẩu (*)</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
-                            onchange="this.setCustomValidity('')" required>
-                    </div>
-                </div><br />
-                
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success">Đăng Nhập</button>
+                    <button type="submit" class="btn btn-success">Gửi Mã</button>
                 </div>
             </form>
             <div class="row text-center">
-                <p class="mt-4">Bạn chưa có tài khoản? <a href="auth.php?action=register">Đăng ký</a></p>
+                <p class="mt-4">Bạn đã nhớ tài khoản? <a href="auth.php?action=login">login</a></p>
             </div>
             <div class="row text-center">
-                <p class="mt-2">Bạn chưa nhận được mã? <a href="auth.php?action=sendcode">Quên mật khẩu</a></p>
+                <p class="mt-4">Bạn đã đã nhận được mã? <a href="auth.php?action=repassword">Đổi mật khẩu</a></p>
             </div>
         </div>
     </div>

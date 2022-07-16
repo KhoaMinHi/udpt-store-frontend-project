@@ -137,48 +137,6 @@ img.logo-store{
                     </div>
                 </div><br />
                 <!-- {{!-- province, district, ward --}} -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="inputCity">Tỉnh thành (*)</label>
-                        <select class="form-select" id="citySelect" onchange="choosedCity()" name="province"
-                            oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
-                            onchange="this.setCustomValidity('')" required>
-                            <option value="<?php if(!empty($result->province))  echo $result->province?>">
-                                <?php if(!empty($result->province))  echo $result->province?>
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="inputDistrict">Quận huyện (*)</label>
-                        <select class="form-select" id="district" onchange="choosedDistrict()" name="district"
-                            oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
-                            onchange="this.setCustomValidity('')" required>
-                            <option value="<?php if(!empty($result->district))  echo $result->district?>">
-                                <?php if(!empty($result->province))  echo $result->district?>
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="inputWard">Phường xã (*)</label>
-                        <select class="form-select" id="ward" name="ward"
-                            oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
-                            onchange="this.setCustomValidity('')" required>
-                            <option value="<?php if(!empty($result->ward))  echo $result->ward?>">
-                                <?php if(!empty($result->province))  echo $result->ward?>
-                            </option>
-                        </select>
-                    </div>
-                </div><br />
-                <!-- {{!-- address --}} -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="inputStreet">Số nhà, tên đường (*)</label>
-                        <input value="<?php if(!empty($result->address))  echo $result->address?>" type="input"
-                            class="form-control" id="street" name="address"
-                            oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
-                            onchange="this.setCustomValidity('')" required>
-                    </div>
-                </div><br />
                 <!-- {{!-- email --}} -->
                 <div class="row">
                     <div class="col-md-12">
@@ -194,7 +152,7 @@ img.logo-store{
                 </div>
             </form>
             <div class="pt-5 mt-5 border-top border-primary">
-                <form action="" method="POST">
+                <form action="?action=sendcode" method="POST">
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inputPassword">Mật khẩu (*)</label>

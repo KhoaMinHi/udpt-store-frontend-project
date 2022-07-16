@@ -62,6 +62,15 @@ class StoreModel{
         if(!empty($result->dayStart)) $result->dayStart = rtrim($result->dayStart, "Z");
         return $result;
     }
+//CallAPI($url, $method = null, $data = false)
+    public static function sendCode($email){
+        $url = "http://localhost:3000/api/store/sendcode?email=$email"; //?fields=name&fields=_id
+        CallAPI($url, "PUT");
+    }
+    public static function rePasswordStore($email, $password, $code){
+        $url = "http://localhost:3000/api/store/repassword?email=$email&password=$password&code=$code"; //?fields=name&fields=_id
+        CallAPI($url, "PUT");
+    }
     /*
     public static function advancedSearch($playerName, $playerPosition, $playerNumber, $playerNationality, $playerClub){
         dbconnect::connect();

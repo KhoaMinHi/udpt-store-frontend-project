@@ -2,7 +2,7 @@
 require_once "./../controller/storeController.php";
 require_once "./../controller/authController.php";
 
-if(LoginLogoutController::checkSession() == false){
+if(AuthController::checkSession() == false){
     echo "<script>alert('Vui lòng đăng nhập!'); window.location.href='auth.php'</script>";
     //header("Location:auth.php");
     return;
@@ -23,20 +23,28 @@ switch ($method) {
     case 'POST':
         switch ($action) {
             case "update":
-                $storeInfo->updateStoreInfo();
-                break;
+                if($_SESSION["active-store"] == 1){
+                    $storeInfo->updateStoreInfo();
+                    return;
+                }
+                echo "<script>alert('Tài khoản chưa kích hoạt! Vui lòng liên hệ quản trị viên'); window.location.href='info.php'</script>";
+                return;
             case "updatelogo":
-                $storeInfo->updateStoreLogo();
-                break;
+                if($_SESSION["active-store"] == 1){
+                    $storeInfo->updateStoreLogo();
+                    return;
+                }
+                echo "<script>alert('Tài khoản chưa kích hoạt! Vui lòng liên hệ quản trị viên'); window.location.href='info.php'</script>";
+                return;
             default:
                 $storeInfo->getStoreInfo();
-                break;
+                return;
         }
     case 'GET':
         switch ($action) {
             default:
                 $storeInfo->getStoreInfo();
-                break;
+                return;
         }
 }
 

@@ -18,24 +18,36 @@ switch ($method) {
     case 'POST':
         switch ($action) {
             case "login":
-                LoginLogoutController::login();
+                AuthController::login();
                 break;
             case "register":
                 $storeInfo->registerStore();
                 break;
-            default:
+            case "sendcode":
+                $storeInfo->sendCode();
                 break;
+            case "repassword":
+                $storeInfo->rePasswordStore();
+                break;
+            default:
+            break;
         }
     case 'GET':
         switch ($action) {
             case "logout":
-                LoginLogoutController::logout();
+                AuthController::logout();
                 break;
             case "register":
                 $storeInfo->registerStoreHtml();
                 break;
+            case "sendcode":
+                $storeInfo->sendCodeHtml();
+                break;
+            case "repassword":
+                $storeInfo->rePasswordStoreHtml();
+                break;
             default:
-                LoginLogoutController::getLoginHtml();
+                AuthController::getLoginHtml();
                 break;
         }
 }
